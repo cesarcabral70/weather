@@ -8,6 +8,8 @@ import IconRainDay from "./weatherIcon/iconRainSun";
 import IconRainNight from "./weatherIcon/iconRainNight";
 import TabNavigation from "../tabNavigation/tabNavigation";
 import { useState } from "react";
+import useGeolocalization from "@/hooks/useGeolocalization";
+import useCityName from "@/hooks/useCityName";
 
 export default function WeatherConditions() {
   const [currentView, setCurrentView] = useState("Today");
@@ -21,8 +23,15 @@ export default function WeatherConditions() {
   // Format the date in ISO 8601 format
   const isoFormattedDate = utcDate.toISOString();
 
+  const { longitude, latitude, gpsLatitude, gpsLongitude } =
+    useGeolocalization();
   const { moonPhasePercent } = useMoonPhase({
     date: isoFormattedDate,
+  });
+
+  const { cityName } = useCityName({
+    latitude,
+    longitude,
   });
 
   //   Expected condtions:
@@ -48,7 +57,7 @@ export default function WeatherConditions() {
     <>
       <div className="relative flex min-h-screen flex-col justify-center overflow-hidden bg-gray py-6 sm:py-12">
         <div className="relative  border-solid md:border-2 border-white px-6 md:pt-10 pb-8 shadow-xl ring-1 ring-gray-900/5 sm:mx-auto sm:max-w-lg sm:rounded-lg sm:px-10">
-          <div className="font-bold text-2xl">Hamburg, DE</div>
+          <div className="font-bold text-2xl">{cityName}</div>
           <div className="mb-5">
             Today, {new Date().getDay()}/{new Date().getMonth() + 1}/
             {new Date().getFullYear()}
@@ -63,7 +72,7 @@ export default function WeatherConditions() {
 
               <div className="flex flex-col">
                 <label>Longitude</label>
-                <input className="w-full" type="text" />
+                <input className="w-full" type="text" defaultValue={"test"} />
               </div>
 
               <div className="flex flex-col">
@@ -73,11 +82,17 @@ export default function WeatherConditions() {
             </div>
 
             <div className="p-4 bg-gray-700">
-              <div>
-                GPS Coordinates 53° 33&apos; 3.9096&apos;&apos; N 9° 59&apos;
-                37.2552&apos;&apos; E
-              </div>
-              <div> Lat Long (53.551086, 9.993682) </div>
+              <ul>
+                <li>Latitude: {latitude}</li>
+                <li>Longitude: {longitude}</li>
+                <li>
+                  GPS Coordinates:
+                  <ul>
+                    <li>{gpsLongitude}</li>
+                    <li>{gpsLatitude}</li>
+                  </ul>
+                </li>
+              </ul>
             </div>
           </form>
 
