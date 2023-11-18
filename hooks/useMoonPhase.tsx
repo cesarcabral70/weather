@@ -52,6 +52,7 @@ function useMoonPhase({ date }: Props) {
     }
 
     calculateMoonPhase({ year, month, day });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return { moonPhasePercent, moonPhaseName };
