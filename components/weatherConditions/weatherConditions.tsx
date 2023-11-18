@@ -47,8 +47,12 @@ export default function WeatherConditions() {
   return (
     <>
       <div className="relative flex min-h-screen flex-col justify-center overflow-hidden bg-gray py-6 sm:py-12">
-        <div className="relative  border-solid border-2 border-white px-6 pt-10 pb-8 shadow-xl ring-1 ring-gray-900/5 sm:mx-auto sm:max-w-lg sm:rounded-lg sm:px-10">
-          <div className="mb-5 font-bold text-2xl">Hamburg, DE</div>
+        <div className="relative  border-solid md:border-2 border-white px-6 md:pt-10 pb-8 shadow-xl ring-1 ring-gray-900/5 sm:mx-auto sm:max-w-lg sm:rounded-lg sm:px-10">
+          <div className="font-bold text-2xl">Hamburg, DE</div>
+          <div className="mb-5">
+            Today, {new Date().getDay()}/{new Date().getMonth() + 1}/
+            {new Date().getFullYear()}
+          </div>
 
           <form className="mb-5">
             <div>
@@ -80,7 +84,7 @@ export default function WeatherConditions() {
           {currentView === "Today" ? (
             <div className="mx-auto max-w-md">
               <div className="p-6 mt-5 mb-5 rounded-xl w-full flex items-center space-x-4  bg-gray-800">
-                <div className="shrink-0 text-gray-800">
+                <div className="shrink-0 text-gray-800 -ml-8 md:ml-0">
                   <IconRainDay />{" "}
                 </div>
                 <div>
@@ -88,15 +92,14 @@ export default function WeatherConditions() {
                     <strong className="font-bold tracking-tighter">20</strong>
                     <span>&deg;</span>
                   </div>
-                  <p className="text-white text-2xl font-light">20:40</p>
-                  <p className="text-white font-light">20 Nov 2023</p>
+                  <p className="text-white md:text-2xl font-light">20:40</p>
                 </div>
               </div>
 
-              <div className="flex space-x-4 mb-4">
+              <div className="flex md:space-x-4 md:mb-4">
                 <div className="w-1/2 ">
-                  <div className=" rounded-xl w-full  items-center bg-orange-400 text-center relative">
-                    <div className="shrink-0 text-orange-400 scale-75">
+                  <div className="md:rounded-xl w-full  items-center bg-orange-400 text-center relative">
+                    <div className="shrink-0 text-orange-400 scale-50 -ml-3 md:scale-75 md:ml-0">
                       <IconRainDay />{" "}
                     </div>
                     <div className="-mt-8">
@@ -106,7 +109,7 @@ export default function WeatherConditions() {
                         </strong>
                         <span>&deg;</span>
                       </div>
-                      <p className="text-white text-xs font-light absolute top-2 right-3">
+                      <p className="text-white text-xs font-light absolute top-3 right-3">
                         <strong className="font-bold">7:00</strong>am
                       </p>
                       <p className="text-white font-light pb-5">Morning</p>
@@ -115,8 +118,8 @@ export default function WeatherConditions() {
                 </div>
 
                 <div className="w-1/2 ">
-                  <div className="  rounded-xl w-full  items-center bg-cyan-500 text-center relative">
-                    <div className="shrink-0 text-cyan-500 scale-75">
+                  <div className="md:rounded-xl w-full  items-center bg-cyan-500 text-center relative">
+                    <div className="shrink-0 text-cyan-500 scale-50 -ml-3 md:scale-75 md:ml-0">
                       <IconRainDay />{" "}
                     </div>
                     <div className="-mt-8">
@@ -126,7 +129,7 @@ export default function WeatherConditions() {
                         </strong>
                         <span>&deg;</span>
                       </div>
-                      <p className="text-white text-xs font-light absolute top-2 right-3">
+                      <p className="text-white text-xs font-light absolute top-3 right-3">
                         <strong className="font-bold">7:00</strong>am
                       </p>
                       <p className="text-white font-light pb-5">afternoon</p>
@@ -135,10 +138,10 @@ export default function WeatherConditions() {
                 </div>
               </div>
 
-              <div className="flex space-x-4">
+              <div className="flex md:space-x-4 mb-4">
                 <div className="w-1/2 ">
-                  <div className="  rounded-xl w-full  items-center bg-cyan-800 text-center relative">
-                    <div className="shrink-0 text-cyan-800 scale-75">
+                  <div className="md:rounded-xl w-full items-center bg-cyan-800 text-center relative">
+                    <div className="shrink-0 text-cyan-800 scale-50 -ml-3 md:scale-75 md:ml-0">
                       <IconRainDay />{" "}
                     </div>
                     <div className="-mt-8">
@@ -148,7 +151,7 @@ export default function WeatherConditions() {
                         </strong>
                         <span>&deg;</span>
                       </div>
-                      <p className="text-white text-xs font-light absolute top-2 right-3">
+                      <p className="text-white text-xs font-light absolute top-3 right-3">
                         <strong className="font-bold">7:00</strong>am
                       </p>
                       <p className="text-white font-light pb-5">evening</p>
@@ -157,8 +160,8 @@ export default function WeatherConditions() {
                 </div>
 
                 <div className="w-1/2 ">
-                  <div className="rounded-xl w-full  items-center bg-stone-800 text-center relative">
-                    <div className="shrink-0 text-stone-800 scale-75">
+                  <div className="md:rounded-xl w-full  items-center bg-stone-800 text-center relative">
+                    <div className="shrink-0 text-stone-800 scale-50 -ml-3 md:scale-75 md:ml-0">
                       <IconRainNight moonPhasePercent={moonPhasePercent} />{" "}
                     </div>
                     <div className="-mt-8">
@@ -168,7 +171,7 @@ export default function WeatherConditions() {
                         </strong>
                         <span>&deg;</span>
                       </div>
-                      <p className="text-white text-xs font-light absolute top-2 right-3">
+                      <p className="text-white text-xs font-light absolute top-3 right-3">
                         <strong className="font-bold">7:00</strong>am
                       </p>
                       <p className="text-white font-light pb-5">Night</p>
@@ -182,8 +185,8 @@ export default function WeatherConditions() {
               {[0, 1, 2, 3, 4, 5].map((item) => (
                 <li key={item}>
                   Day {item}
-                  <div className="flex">
-                    <div className="w-1/4 ">
+                  <div className="flex flex-wrap">
+                    <div className="w-1/2 md:w-1/4 ">
                       <div className="w-full items-center bg-orange-400 text-center relative">
                         <div className="shrink-0 text-orange-400 scale-50 -ml-8">
                           <IconRainDay />{" "}
@@ -201,7 +204,7 @@ export default function WeatherConditions() {
                         </div>
                       </div>
                     </div>
-                    <div className="w-1/4 ">
+                    <div className="w-1/2 md:w-1/4 ">
                       <div className="w-full items-center bg-cyan-500 text-center relative">
                         <div className="shrink-0 text-cyan-500 scale-50 -ml-8">
                           <IconRainDay />{" "}
@@ -219,7 +222,7 @@ export default function WeatherConditions() {
                         </div>
                       </div>
                     </div>
-                    <div className="w-1/4 ">
+                    <div className="w-1/2 md:w-1/4 ">
                       <div className="w-full items-center bg-cyan-800 text-center relative">
                         <div className="shrink-0 text-cyan-800 scale-50 -ml-8">
                           <IconRainDay />{" "}
@@ -237,7 +240,7 @@ export default function WeatherConditions() {
                         </div>
                       </div>
                     </div>
-                    <div className="w-1/4 ">
+                    <div className="w-1/2 md:w-1/4 ">
                       <div className="w-full items-center bg-stone-800 text-center relative">
                         <div className="shrink-0 text-stone-800 scale-50 -ml-8">
                           <IconRainNight moonPhasePercent={moonPhasePercent} />{" "}
