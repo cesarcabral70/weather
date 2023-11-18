@@ -1,3 +1,14 @@
+.title {
+  background: yellow;
+  position: absolute;
+  z-index: 10;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 80%;
+  margin-bottom: -10px;
+}
 .icon {
   color: black;
   position: relative;
@@ -149,6 +160,9 @@
   margin: -3rem 1rem;
 }
 
+.wind,
+.fog,
+.sleet,
 .rain,
 .lightning,
 .snow {
@@ -162,6 +176,9 @@
   background: currentColor;
 }
 
+.wind::after,
+.fog::after,
+.sleet::after,
 .rain:after {
   content: "";
   position: absolute;
@@ -179,6 +196,40 @@
     -1.375rem -0.125rem 0 rgba(255, 255, 255, 0.2);
   transform: rotate(-28deg);
   animation: rain 3s linear infinite;
+}
+
+.sleet::after {
+  background: white;
+  animation: sleet 3s linear infinite;
+  border-radius: 50%;
+}
+
+.fog::after {
+  background: white;
+  border-radius: 50%;
+  height: 20%;
+  width: 1.025rem;
+  transform: rotate(0deg);
+  margin: -0.8em 0 0 -0.05rem;
+  border-radius: 5px;
+  animation: sleet 3s linear infinite;
+}
+
+.wind {
+  transform: skew(40deg) scale(2);
+  border-radius: 0;
+  background: transparent;
+}
+
+.wind::after {
+  background: white;
+  border-radius: 50%;
+  height: 8%;
+  width: 2.025rem;
+  transform: rotate(0deg);
+  margin: -0.8em 0 0 -0.25rem;
+  border-radius: 5px;
+  animation: sleet 3s linear infinite;
 }
 
 .bolt {
@@ -284,6 +335,35 @@
   100% {
     opacity: 0;
     transform: scale(0.5) translate(-200%, -3em);
+  }
+}
+
+@keyframes sleet {
+  0% {
+    background: #fff;
+    box-shadow:
+      0.625rem 0.875rem 0 -0.125rem rgba(255, 255, 255, 0.2),
+      -0.875rem 1.125rem 0 -0.125rem rgba(255, 255, 255, 0.2),
+      -1.375rem -0.125rem 0 #fff;
+  }
+  25% {
+    box-shadow:
+      0.625rem 0.875rem 0 -0.125rem rgba(255, 255, 255, 0.2),
+      -0.875rem 1.125rem 0 -0.125rem #fff,
+      -1.375rem -0.125rem 0 rgba(255, 255, 255, 0.2);
+  }
+  50% {
+    background: rgba(255, 255, 255, 0.3);
+    box-shadow:
+      0.625rem 0.875rem 0 -0.125rem #fff,
+      -0.875rem 1.125rem 0 -0.125rem rgba(255, 255, 255, 0.2),
+      -1.375rem -0.125rem 0 rgba(255, 255, 255, 0.2);
+  }
+  100% {
+    box-shadow:
+      0.625rem 0.875rem 0 -0.125rem rgba(255, 255, 255, 0.2),
+      -0.875rem 1.125rem 0 -0.125rem rgba(255, 255, 255, 0.2),
+      -1.375rem -0.125rem 0 #fff;
   }
 }
 

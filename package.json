@@ -18,7 +18,8 @@
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
       "yarn lint:fix",
-      "git add"
+      "git add",
+      "git commit"
     ]
   },
   "husky": {
