@@ -11,6 +11,21 @@ export default function WeatherConditions() {
     date: "2023-11-18T17:58:00+00:00",
   });
 
+  //   Expected condtions:
+  //    - [OK] clear-day
+  //    - [OK] clear-night
+  //    - [OK] partly-cloudy-day
+  //    - [OK] partly-cloudy-night
+  //    - [OK] cloudy
+  //    - fog
+  //    - wind
+  //    - [OK] rain
+  //    - sleet (granizo)
+  //    - [OK] snow
+  //    - hail (chuva de granizo)
+  //    - [OK] thunderstorm
+  //    - null
+
   return (
     <>
       <div className={`${styles.icon} ${styles.sun_shower}`}>
