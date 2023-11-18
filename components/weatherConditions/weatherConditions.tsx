@@ -1,9 +1,16 @@
+"use client";
+
 // SOURCE: https://codepen.io/front-end-developer/pen/vREwzJ
 
+import useMoonPhase from "@/hooks/useMoonPhase";
 import Moon from "./moonIcon/moonIcon";
 import styles from "./weatherConditions.module.scss";
 
 export default function WeatherConditions() {
+  const { moonPhasePercent } = useMoonPhase({
+    date: "2023-11-18T17:58:00+00:00",
+  });
+
   return (
     <>
       <div className={`${styles.icon} ${styles.sun_shower}`}>
@@ -43,14 +50,18 @@ export default function WeatherConditions() {
       </div>
 
       <div className={`${styles.icon} ${styles.sunny}`}>
-        <Moon phase={50} />
+        <Moon phase={moonPhasePercent} />
+      </div>
+
+      <div className={`${styles.icon} ${styles.sunny}`}>
+        <Moon phase={moonPhasePercent} />
       </div>
 
       <div className={`${styles.icon} ${styles.sunny}`}>
         <div className={styles.cloud}></div>
         <div className={styles.cloud}></div>
 
-        <Moon phase={0} />
+        <Moon phase={moonPhasePercent} />
         <div className={styles.rain}></div>
       </div>
 
@@ -58,7 +69,7 @@ export default function WeatherConditions() {
         <div className={styles.cloud}></div>
         <div className={styles.cloud}></div>
 
-        <Moon phase={100} />
+        <Moon phase={moonPhasePercent} />
       </div>
 
       <div className={`${styles.icon} ${styles.rainy}`}>
