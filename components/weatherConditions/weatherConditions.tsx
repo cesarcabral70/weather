@@ -54,29 +54,31 @@ export default function WeatherConditions() {
             {new Date().getFullYear()}
           </div>
 
-          <form className="mb-5">
+          <form className="mb-5 p-4 border-2 border-white">
             <div>
-              <div>
+              <div className="flex flex-col">
                 <label>Latitude</label>
-                <input type="text" />
+                <input className="w-full" type="text" />
               </div>
 
-              <div>
+              <div className="flex flex-col">
                 <label>Longitude</label>
-                <input type="text" />
+                <input className="w-full" type="text" />
               </div>
 
-              <div>
+              <div className="flex flex-col">
                 <label>City Name</label>
-                <input type="text" />
+                <input className="w-full" type="text" />
               </div>
             </div>
 
-            <div>
-              GPS Coordinates 53° 33&apos; 3.9096&apos;&apos; N 9° 59&apos;
-              37.2552&apos;&apos; E
+            <div className="p-4 bg-gray-700">
+              <div>
+                GPS Coordinates 53° 33&apos; 3.9096&apos;&apos; N 9° 59&apos;
+                37.2552&apos;&apos; E
+              </div>
+              <div> Lat Long (53.551086, 9.993682) </div>
             </div>
-            <div> Lat Long (53.551086, 9.993682) </div>
           </form>
 
           <TabNavigation getActiveTab={getActiveTab} />
