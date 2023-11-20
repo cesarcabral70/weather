@@ -28,7 +28,6 @@ export default function TabNavigation({ getActiveTab }: Props) {
           onClick={(e) => {
             e.preventDefault();
             handleClick(text);
-            console.log("TEST");
           }}
           className={`inline-flex w-full items-center justify-center p-4 border-b-2 border-transparent rounded-t-lg ${
             isActive === text

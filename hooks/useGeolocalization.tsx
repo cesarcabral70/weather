@@ -1,4 +1,52 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
+type Props = {
+  newLatitude: number;
+  newLongitude: number;
+};
+
+export default function useGeolocalization({
+  newLatitude,
+  newLongitude,
+}: Props) {
+  const [latitude, setLatitude] = useState(newLatitude || 0);
+  const [longitude, setLongitude] = useState(newLongitude || 0);
+  const [gpsLatitude, setGPSLatitude] = useState("");
+  const [gpsLongitude, setGPSLongitude] = useState("");
+
+  useEffect(() => {
+    if (newLatitude > 0 && newLongitude > 0) {
+      setGPSLatitude(convertToDMS(newLatitude));
+      setGPSLongitude(convertToDMS(newLongitude));
+      return;
+    }
+
+    if ("geolocation" in navigator) {
+      // Geolocation is available
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          setLatitude(latitude);
+          setLongitude(longitude);
+        },
+        (error) => {
+          // Handle any errors that occur during geolocation retrieval
+          console.error("Error getting geolocation:", error);
+        },
+      );
+    } else {
+      // Geolocation is not available/supported
+      console.log("Geolocation is not supported by this browser.");
+    }
+  }, [newLatitude, newLongitude]);
+
+  return {
+    latitude,
+    longitude,
+    gpsLatitude,
+    gpsLongitude,
+  };
+}
 
 function convertToDMS(coordinate: number) {
   const absolute = Math.abs(coordinate);
@@ -8,38 +56,4 @@ function convertToDMS(coordinate: number) {
   const seconds = Math.floor((minutesNotTruncated - minutes) * 60);
 
   return `${degrees}° ${minutes}' ${seconds}"`;
-}
-
-export default function useGeolocalization() {
-  const [latitude, setLatitude] = useState(0);
-  const [longitude, setLongitude] = useState(0);
-
-  if ("geolocation" in navigator) {
-    // Geolocation is available
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        const { latitude, longitude } = position.coords;
-
-        setLatitude(latitude);
-        setLongitude(longitude);
-
-        // You can use latitude and longitude values here
-        // For example, display on a map or perform other actions
-      },
-      (error) => {
-        // Handle any errors that occur during geolocation retrieval
-        console.error("Error getting geolocation:", error);
-      },
-    );
-  } else {
-    // Geolocation is not available/supported
-    console.log("Geolocation is not supported by this browser.");
-  }
-
-  return {
-    latitude,
-    longitude,
-    gpsLatitude: convertToDMS(latitude),
-    gpsLongitude: convertToDMS(longitude),
-  };
 }
