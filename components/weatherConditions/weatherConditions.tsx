@@ -4,15 +4,14 @@
 
 import useMoonPhase from "@/hooks/useMoonPhase";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import TabNavigation from "../tabNavigation/tabNavigation";
-import IconRainNight from "./weatherIcon/iconRainNight";
 import IconRainDay from "./weatherIcon/iconRainSun";
 
 import {
-  BrightSkyWeatherResponse,
   HookUseWeatherResponse,
   WeatherByDay,
+  WeatherRecord,
 } from "@/interfaces/BrightSkyInterfaces";
 import moment from "moment";
 import SearchForm from "../searchForm/searchForm";
@@ -20,12 +19,10 @@ import SearchForm from "../searchForm/searchForm";
 export default function WeatherConditions() {
   const [currentView, setCurrentView] = useState("Today");
   const [locationWeatherData, setLocationWeatherData] =
-    useState<BrightSkyWeatherResponse>();
+    useState<WeatherRecord>();
 
   const [locationWeatherByHourData, setLocationWeatherByHourData] = useState();
   const [locationWeatherByDayData, setLocationWeatherByDayData] = useState();
-
-  // console.log(weatherData);
 
   // Adjust to UTC by subtracting the offset
   const originalDate = new Date();
@@ -69,7 +66,6 @@ export default function WeatherConditions() {
   };
 
   const colorsHex = ["#fb923c", "#06b6d4", "#155e75", "#262626"];
-  // const colorCollection = ["orange-400", "cyan-500", "cyan-800", "stone-800"];
   const timeCollection = ["Morning", "Afternoon", "Evening", "Night"];
 
   return (
@@ -151,53 +147,47 @@ export default function WeatherConditions() {
               ) : (
                 <ul>
                   {Object.keys(locationWeatherByDayData).map((days) => {
-                    console.log(locationWeatherByDayData[days]);
-                    console.log("---->", days);
                     return (
                       <li key={days}>
                         <div className="mb-3">
-                          test
                           {moment(days).format("dddd, MMMM Do YYYY")}
                         </div>
 
                         <div className="grid gap-4 grid-cols-2 md:grid-cols-4 mb-8">
                           {locationWeatherByDayData[days].map(
-                            (day, dayIndex) => {
-                              console.log(dayIndex);
-                              return (
-                                <div key={day.timestamp + dayIndex}>
+                            (day: WeatherByDay, dayIndex: number) => (
+                              <div key={day.timestamp + dayIndex}>
+                                <div
+                                  className={`w-full items-center text-center relative`}
+                                  style={{
+                                    backgroundColor: colorsHex[dayIndex],
+                                  }}
+                                >
                                   <div
-                                    className={`w-full items-center text-center relative`}
+                                    className={`shrink-0 scale-50 -ml-8`}
                                     style={{
-                                      backgroundColor: colorsHex[dayIndex],
+                                      color: colorsHex[dayIndex],
                                     }}
                                   >
-                                    <div
-                                      className={`shrink-0 scale-50 -ml-8`}
-                                      style={{
-                                        color: colorsHex[dayIndex],
-                                      }}
-                                    >
-                                      <IconRainDay />{" "}
-                                    </div>
+                                    <IconRainDay />{" "}
+                                  </div>
 
-                                    <div className="-mt-10">
-                                      <div className="text-4xl text-white pb-5">
-                                        <strong className="font-bold tracking-tighter">
-                                          {parseInt(day.temperature)}
-                                        </strong>
-                                        <span>&deg;</span>
-                                      </div>
-                                      <p className="text-white w-full text-sm font-light absolute top-2">
-                                        <strong className="font-bold">
-                                          {timeCollection[dayIndex]}
-                                        </strong>
-                                      </p>
+                                  <div className="-mt-10">
+                                    <div className="text-4xl text-white pb-5">
+                                      <strong className="font-bold tracking-tighter">
+                                        {parseInt(day.temperature)}
+                                      </strong>
+                                      <span>&deg;</span>
                                     </div>
+                                    <p className="text-white w-full text-sm font-light absolute top-2">
+                                      <strong className="font-bold">
+                                        {timeCollection[dayIndex]}
+                                      </strong>
+                                    </p>
                                   </div>
                                 </div>
-                              );
-                            }
+                              </div>
+                            )
                           )}
                         </div>
                       </li>

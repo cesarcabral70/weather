@@ -15,6 +15,7 @@ export default function SearchForm({ handleLocationWeatherData }: Props) {
   const [textLocationName, setTextLocationName] = useState("");
   const [isLatitude, setisLatitude] = useState("");
   const [isLongitude, setisLongitude] = useState("");
+  const [shouldUpate, setShouldUpdate] = useState(true);
 
   const { longitude, latitude, gpsLatitude, gpsLongitude } = useGeolocalization(
     { newLatitude: Number(textLatitude), newLongitude: Number(textLongitude) }
@@ -23,6 +24,8 @@ export default function SearchForm({ handleLocationWeatherData }: Props) {
   const weatherData = useWeather({
     latitude: isLatitude,
     longitude: isLongitude,
+    isUpdate: shouldUpate,
+    handleIsUpdate: handleIsUpdate,
   });
 
   const { cityName } = useCityName({
@@ -33,12 +36,14 @@ export default function SearchForm({ handleLocationWeatherData }: Props) {
   const initLat = latitude;
   const initLong = longitude;
 
-  //   console.log(weatherData);
+  function handleIsUpdate() {
+    console.log("HANDLEISUPDATE", shouldUpate);
+    setShouldUpdate(false);
+  }
 
   useEffect(() => {
     setTextLatitude(initLat.toString());
     setTextLongitude(initLong.toString());
-    console.log(initLat, initLong);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [latitude, initLong]);
 
@@ -56,6 +61,11 @@ export default function SearchForm({ handleLocationWeatherData }: Props) {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    // handleLocationWeatherData(weatherData);
+    // setisLatitude(textLatitude);
+    // setisLongitude(textLongitude);
+    setShouldUpdate(true);
+
     console.log("SUBMIT!!");
   };
 
@@ -112,7 +122,7 @@ export default function SearchForm({ handleLocationWeatherData }: Props) {
         type="submit"
         className="mt-4 w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
       >
-        Submit
+        Update weather
       </button>
     </form>
   );

@@ -12,7 +12,7 @@ export default function useCityName({ latitude, longitude }: Props) {
   async function getCityName(latitude: number, longitude: number) {
     try {
       const response = await fetch(
-        `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=AIzaSyCZ3QMBKiWjrBumDoDW_3LnpVGW2PZq6qM`,
+        `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=AIzaSyCZ3QMBKiWjrBumDoDW_3LnpVGW2PZq6qM`
       );
       const data = await response.json();
 
@@ -43,6 +43,5 @@ export default function useCityName({ latitude, longitude }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [latitude, longitude]);
 
-  // console.log(cityName);
   return { cityName };
 }
