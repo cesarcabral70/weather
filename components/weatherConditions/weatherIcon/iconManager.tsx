@@ -15,7 +15,6 @@
 //    - [<IconThunderstorm />] thunderstorm
 //    - null
 
-import { useEffect } from "react";
 import IconClearDay from "./iconClearDay";
 import IconClearNight from "./iconClearNight";
 import IconCloudy from "./iconCloudy";
