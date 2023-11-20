@@ -156,6 +156,7 @@ export default function WeatherConditions() {
                     return (
                       <li key={days}>
                         <div className="mb-3">
+                          test
                           {moment(days).format("dddd, MMMM Do YYYY")}
                         </div>
 

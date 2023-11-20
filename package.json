@@ -17,10 +17,21 @@
     "react-dom": "^18"
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx}": [
-      "yarn lint:fix",
-      "git add",
-      "git commit"
+    "app/**/*.{js,jsx}": [
+      "eslint --fix",
+      "git add"
+    ],
+    "components/**/*.{js,jsx}": [
+      "eslint --fix",
+      "git add"
+    ],
+    "hooks/**/*.{js,jsx}": [
+      "eslint --fix",
+      "git add"
+    ],
+    "interfaces/**/*.{js,jsx}": [
+      "eslint --fix",
+      "git add"
     ]
   },
   "husky": {
