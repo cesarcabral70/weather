@@ -37,7 +37,6 @@ export default function SearchForm({ handleLocationWeatherData }: Props) {
   const initLong = longitude;
 
   function handleIsUpdate() {
-    console.log("HANDLEISUPDATE", shouldUpate);
     setShouldUpdate(false);
   }
 
@@ -61,11 +60,7 @@ export default function SearchForm({ handleLocationWeatherData }: Props) {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // handleLocationWeatherData(weatherData);
-    // setisLatitude(textLatitude);
-    // setisLongitude(textLongitude);
     setShouldUpdate(true);
-
     console.log("SUBMIT!!");
   };
 
