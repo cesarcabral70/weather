@@ -1,6 +1,6 @@
 import useCityName from "@/hooks/useCityName";
 import useGeolocalization from "@/hooks/useGeolocalization";
-import useWeather from "@/hooks/useWeather";
+import useWeather from "@/hooks/useWeather.1";
 import { HookUseWeatherResponse } from "@/interfaces/BrightSkyInterfaces";
 import { FormEvent, useEffect, useState } from "react";
 
