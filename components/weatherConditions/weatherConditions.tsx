@@ -57,7 +57,8 @@ export default function WeatherConditions() {
                     <div>
                       <div className="text-6xl text-white ">
                         <strong className="font-bold tracking-tighter">
-                          {parseInt(locationWeatherData.temperature)}
+                          {locationWeatherData.temperature !== null &&
+                            parseInt(locationWeatherData.temperature)}
                         </strong>
                         <span>&deg;</span>
                       </div>
