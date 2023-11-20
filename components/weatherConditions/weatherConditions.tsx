@@ -136,7 +136,7 @@ export default function WeatherConditions() {
                                   }}
                                 >
                                   <div
-                                    className={`shrink-0 scale-50 -ml-8`}
+                                    className={`shrink-0 scale-50 -ml-2 md:-ml-8`}
                                     style={{
                                       color: colorsHex[dayIndex],
                                     }}
