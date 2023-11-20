@@ -1,9 +1,5 @@
 "use client";
 
-// SOURCE: https://codepen.io/front-end-developer/pen/vREwzJ
-
-import useMoonPhase from "@/hooks/useMoonPhase";
-
 import { useState } from "react";
 import TabNavigation from "../tabNavigation/tabNavigation";
 import IconRainDay from "./weatherIcon/iconRainSun";
@@ -15,6 +11,7 @@ import {
 } from "@/interfaces/BrightSkyInterfaces";
 import moment from "moment";
 import SearchForm from "../searchForm/searchForm";
+import IconManager from "./weatherIcon/iconManager";
 
 export default function WeatherConditions() {
   const [currentView, setCurrentView] = useState("Today");
@@ -24,16 +21,6 @@ export default function WeatherConditions() {
   const [locationWeatherByHourData, setLocationWeatherByHourData] = useState();
   const [locationWeatherByDayData, setLocationWeatherByDayData] = useState();
 
-  // Adjust to UTC by subtracting the offset
-  const originalDate = new Date();
-  const utcDate = new Date(
-    // eslint-disable-next-line prettier/prettier
-    originalDate.getTime() - originalDate.getTimezoneOffset() * 60000
-  );
-
-  // Format the date in ISO 8601 format
-  const isoFormattedDate = utcDate.toISOString();
-
   const handleLocationWeatherData = (data: HookUseWeatherResponse) => {
     if (!data.loading) {
       setLocationWeatherData(data.dataWeather.weather);
@@ -41,25 +28,6 @@ export default function WeatherConditions() {
       setLocationWeatherByDayData(data.dataWeatherDay);
     }
   };
-
-  const { moonPhasePercent } = useMoonPhase({
-    date: isoFormattedDate,
-  });
-
-  //   Expected condtions:
-  //    - [<IconClearDay />] clear-day
-  //    - [<IconClearNight />] clear-night
-  //    - [<IconPartlyCloudyDay />] partly-cloudy-day
-  //    - [<IconPartlyCloudyNight />] partly-cloudy-night
-  //    - [<IconCloudy />] cloudy
-  //    - [<IconFog />] fog
-  //    - [<IconWindy />] wind
-  //    - [<IconRain />] rain
-  //    - [<IconSleet />] sleet (granizo)
-  //    - [<IconSnow />] snow
-  //    - [<IconHail />] hail (chuva de granizo)
-  //    - [<IconThunderstorm />] thunderstorm
-  //    - null
 
   const getActiveTab = (data: string) => {
     setCurrentView(data);
@@ -82,7 +50,9 @@ export default function WeatherConditions() {
                 <div className="mx-auto max-w-md">
                   <div className="p-6 mt-5 mb-5 rounded-xl w-full flex items-center space-x-4  bg-gray-800">
                     <div className="shrink-0 text-gray-800 -ml-8 md:ml-0">
-                      <IconRainDay />{" "}
+                      {locationWeatherData.icon && (
+                        <IconManager iconName={locationWeatherData.icon} />
+                      )}
                     </div>
                     <div>
                       <div className="text-6xl text-white ">
@@ -117,7 +87,9 @@ export default function WeatherConditions() {
                                     color: colorsHex[index],
                                   }}
                                 >
-                                  <IconRainDay />{" "}
+                                  {filteredItem.icon && (
+                                    <IconManager iconName={filteredItem.icon} />
+                                  )}
                                 </div>
                                 <div className="-mt-8">
                                   <div className="text-4xl text-white absolute top-2 left-5">
@@ -169,7 +141,9 @@ export default function WeatherConditions() {
                                       color: colorsHex[dayIndex],
                                     }}
                                   >
-                                    <IconRainDay />{" "}
+                                    {day.icon && (
+                                      <IconManager iconName={day.icon} />
+                                    )}
                                   </div>
 
                                   <div className="-mt-10">

@@ -34,7 +34,7 @@ function useMoonPhase({ date }: Props) {
 
     // Calculate the number of days since the most recent New Moon (January 6, 2000)
     const daysSinceNewMoon = Math.floor(
-      365.25 * (year - 2000) + 30.6 * month + day - 694039.09, // Approximation of the number of days since the most recent New Moon
+      365.25 * (year - 2000) + 30.6 * month + day - 694039.09 // Approximation of the number of days since the most recent New Moon
     );
 
     // Calculate the phase index (0 to 7) to determine the phase name
