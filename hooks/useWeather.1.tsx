@@ -1,7 +1,9 @@
-import { filteredData } from "@/utility/utilities";
+import { filteredData, groupedData } from "@/utility/utilities";
 import moment from "moment";
 import { useEffect, useState } from "react";
 import { Props } from "./useWeather";
+import { generateMockData } from "@/mock/mockdata";
+import axios from "axios";
 
 export default function useWeather({
   latitude,
@@ -15,11 +17,9 @@ export default function useWeather({
   const [loading, setLoading] = useState(true);
 
   const today = moment().format("YYYY-MM-DDT02:mmZ");
-  const tomorrow = moment().add(1, "day"); // Get the date for tomorrow
-  const thirdDay = moment(tomorrow).add(2, "days").format("YYYY-MM-DDT02:mmZ");
+  const tomorrow = moment().add(1, "day").format("YYYY-MM-DDT02:mmZ"); // Get the date for tomorrow
+  const thirdDay = moment(tomorrow).add(2, "days").format("YYYY-MM-DDT23:mmZ");
 
-  console.log(tomorrow);
-  console.log(thirdDay);
   const filterTimeSlot = ["07:00:00", "12:00:00", "17:00:00", "23:00:00"];
 
   const DEFAULT_URL = "https://api.brightsky.dev";
@@ -53,51 +53,57 @@ export default function useWeather({
         const periodWeatherUrl = `${URL_DAY_WEATHER}?date=${tomorrow}&from_date=${tomorrow}&last_date=${thirdDay}&lat=${latitude}&lon=${longitude}`;
         const dayWeatherUrl = `${URL_PERIOD_WEATHER}?date=${today}&lat=${latitude}&lon=${longitude}`;
 
-        // const [
-        //   RESPONSE_REGULAR_WEATHER,
-        //   RESPONSE_PERIOD_WEATHER,
-        //   RESPONSE_DAY_WEATHER,
-        // ] = await Promise.all([
-        //   axios.get(regularWeatherUrl),
-        //   axios.get(periodWeatherUrl),
-        //   axios.get(dayWeatherUrl),
-        // ]);
-        // const dataRegularWeather = RESPONSE_REGULAR_WEATHER.data;
-        // const dataPeriodWeather = RESPONSE_PERIOD_WEATHER.data;
-        // const dataDayWeather = RESPONSE_DAY_WEATHER.data;
-        // const data = dataRegularWeather;
-        // const dataHour = dataDayWeather;
-        // const dataDay = dataPeriodWeather;
         const [
           RESPONSE_REGULAR_WEATHER,
           RESPONSE_PERIOD_WEATHER,
           RESPONSE_DAY_WEATHER,
         ] = await Promise.all([
-          fetch(regularWeatherUrl),
-          fetch(periodWeatherUrl),
-          fetch(dayWeatherUrl),
+          axios.get(regularWeatherUrl),
+          axios.get(periodWeatherUrl),
+          axios.get(dayWeatherUrl),
         ]);
-
-        if (
-          !RESPONSE_REGULAR_WEATHER.ok ||
-          !RESPONSE_PERIOD_WEATHER.ok ||
-          !RESPONSE_DAY_WEATHER.ok
-        ) {
-          throw new Error("One or more requests failed");
-        }
-
-        const dataRegularWeather = await RESPONSE_REGULAR_WEATHER.json();
-        const dataPeriodWeather = await RESPONSE_PERIOD_WEATHER.json();
-        const dataDayWeather = await RESPONSE_DAY_WEATHER.json();
-
+        const dataRegularWeather = RESPONSE_REGULAR_WEATHER.data;
+        const dataPeriodWeather = RESPONSE_PERIOD_WEATHER.data;
+        const dataDayWeather = RESPONSE_DAY_WEATHER.data;
         const data = dataRegularWeather;
         const dataHour = dataDayWeather;
         const dataDay = dataPeriodWeather;
+
+        // const [
+        //   RESPONSE_REGULAR_WEATHER,
+        //   RESPONSE_PERIOD_WEATHER,
+        //   RESPONSE_DAY_WEATHER,
+        // ] = await Promise.all([
+        //   fetch(regularWeatherUrl),
+        //   fetch(periodWeatherUrl),
+        //   fetch(dayWeatherUrl),
+        // ]);
+
+        // if (
+        //   !RESPONSE_REGULAR_WEATHER.ok ||
+        //   !RESPONSE_PERIOD_WEATHER.ok ||
+        //   !RESPONSE_DAY_WEATHER.ok
+        // ) {
+        //   throw new Error("One or more requests failed");
+        // }
+
+        // const dataRegularWeather = await RESPONSE_REGULAR_WEATHER.json();
+        // const dataPeriodWeather = await RESPONSE_PERIOD_WEATHER.json();
+        // const dataDayWeather = await RESPONSE_DAY_WEATHER.json();
+
+        // const data = dataRegularWeather;
+        // const dataHour = dataDayWeather;
+        // const dataDay = dataPeriodWeather;
 
         // MOCK DATA!
         // const data = generateMockData.weatherData;
         // const dataHour = generateMockData.weatherHourData;
         // const dataDay = generateMockData.weatherDayData;
+
+        console.log(data);
+        console.log(dataHour);
+        console.log(dataDay);
+
         console.log("PREPARATION UPDATED?");
 
         if (isMounted && data.weather) {

@@ -30,9 +30,8 @@ export default function useGeolocalization({
           setLongitude(longitude);
         },
         (error) => {
-          // Handle any errors that occur during geolocation retrieval
           console.error("Error getting geolocation:", error);
-        },
+        }
       );
     } else {
       // Geolocation is not available/supported

@@ -8,6 +8,7 @@ type Props = {
 export default function useCityName({ latitude, longitude }: Props) {
   const [cityName, setCityName] = useState("");
   const [loading, setLoading] = useState(true);
+  const [cityNameStatus, setCityNameStatus] = useState("loading");
 
   async function getCityName(latitude: number, longitude: number) {
     try {
@@ -22,11 +23,14 @@ export default function useCityName({ latitude, longitude }: Props) {
           const component = data.results[0].address_components[i];
           if (component.types.includes("locality")) {
             setCityName(data.results[0].formatted_address);
+            setCityNameStatus("success");
             return component.long_name; // Found the city name
           }
         }
+        setCityNameStatus("error");
         setCityName("City name not found");
       } else {
+        setCityNameStatus("error");
         setCityName("City name not found");
       }
     } catch (error) {
@@ -43,5 +47,5 @@ export default function useCityName({ latitude, longitude }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [latitude, longitude]);
 
-  return { cityName };
+  return { cityName, cityNameStatus };
 }

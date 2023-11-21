@@ -18,3 +18,27 @@ export const groupedData = (data: WeatherByDay[]) =>
 
     return acc;
   }, {});
+
+export const validateLatitudeLongitude = (
+  value: string,
+  type: "latitude" | "longitude",
+) => {
+  if (
+    type === "longitude" &&
+    /^(-?((1?[0-7]?|[0-9]?)[0-9])(\.(\d{1,6}))?|180(\.0{1,6})?)$/.test(value)
+  ) {
+    return value;
+  }
+
+  if (
+    type === "latitude" &&
+    /^(-?((1?[0-7]?|[0-9]?)[0-9])(\.(\d{1,6}))?|180(\.0{1,6})?)$/.test(value)
+  ) {
+    return value;
+  }
+};
+
+export function validateOnlyNumbers(s: string) {
+  const rgx = /^[0-9]*\.?[0-9]*$/;
+  return s.match(rgx);
+}

@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import TabNavigation from "../tabNavigation/tabNavigation";
-import IconRainDay from "./weatherIcon/iconRainSun";
 
 import {
   HookUseWeatherResponse,
@@ -13,6 +12,8 @@ import moment from "moment";
 import SearchForm from "../searchForm/searchForm";
 import IconManager from "./weatherIcon/iconManager";
 
+type WeatherData = HookUseWeatherResponse | WeatherByDay[];
+
 export default function WeatherConditions() {
   const [currentView, setCurrentView] = useState("Today");
   const [locationWeatherData, setLocationWeatherData] =
@@ -21,7 +22,7 @@ export default function WeatherConditions() {
   const [locationWeatherByHourData, setLocationWeatherByHourData] = useState();
   const [locationWeatherByDayData, setLocationWeatherByDayData] = useState();
 
-  const handleLocationWeatherData = (data: HookUseWeatherResponse) => {
+  const handleLocationWeatherData = (data: WeatherData) => {
     if (!data.loading) {
       setLocationWeatherData(data.dataWeather.weather);
       setLocationWeatherByHourData(data.dataWeatherHour);
@@ -57,8 +58,11 @@ export default function WeatherConditions() {
                     <div>
                       <div className="text-6xl text-white ">
                         <strong className="font-bold tracking-tighter">
-                          {locationWeatherData.temperature !== null &&
-                            parseInt(locationWeatherData.temperature)}
+                          {locationWeatherData &&
+                            locationWeatherData.temperature !== null &&
+                            parseInt(
+                              locationWeatherData.temperature.toString()
+                            )}
                         </strong>
                         <span>&deg;</span>
                       </div>
@@ -119,55 +123,56 @@ export default function WeatherConditions() {
                 </div>
               ) : (
                 <ul>
-                  {Object.keys(locationWeatherByDayData).map((days) => {
-                    return (
-                      <li key={days}>
-                        <div className="mb-3">
-                          {moment(days).format("dddd, MMMM Do YYYY")}
-                        </div>
+                  {locationWeatherByDayData &&
+                    Object.keys(locationWeatherByDayData).map((days) => {
+                      return (
+                        <li key={days}>
+                          <div className="mb-3">
+                            {moment(days).format("dddd, MMMM Do YYYY")}
+                          </div>
 
-                        <div className="grid gap-4 grid-cols-2 md:grid-cols-4 mb-8">
-                          {locationWeatherByDayData[days].map(
-                            (day: WeatherByDay, dayIndex: number) => (
-                              <div key={day.timestamp + dayIndex}>
-                                <div
-                                  className={`w-full items-center text-center relative`}
-                                  style={{
-                                    backgroundColor: colorsHex[dayIndex],
-                                  }}
-                                >
+                          <div className="grid gap-4 grid-cols-2 md:grid-cols-4 mb-8">
+                            {locationWeatherByDayData[days].map(
+                              (day: WeatherByDay, dayIndex: number) => (
+                                <div key={day.timestamp + dayIndex}>
                                   <div
-                                    className={`shrink-0 scale-50 -ml-2 md:-ml-8`}
+                                    className={`w-full items-center text-center relative`}
                                     style={{
-                                      color: colorsHex[dayIndex],
+                                      backgroundColor: colorsHex[dayIndex],
                                     }}
                                   >
-                                    {day.icon && (
-                                      <IconManager iconName={day.icon} />
-                                    )}
-                                  </div>
-
-                                  <div className="-mt-10">
-                                    <div className="text-4xl text-white pb-5">
-                                      <strong className="font-bold tracking-tighter">
-                                        {parseInt(day.temperature)}
-                                      </strong>
-                                      <span>&deg;</span>
+                                    <div
+                                      className={`shrink-0 scale-50 -ml-2 md:-ml-8`}
+                                      style={{
+                                        color: colorsHex[dayIndex],
+                                      }}
+                                    >
+                                      {day.icon && (
+                                        <IconManager iconName={day.icon} />
+                                      )}
                                     </div>
-                                    <p className="text-white w-full text-sm font-light absolute top-2">
-                                      <strong className="font-bold">
-                                        {timeCollection[dayIndex]}
-                                      </strong>
-                                    </p>
+
+                                    <div className="-mt-10">
+                                      <div className="text-4xl text-white pb-5">
+                                        <strong className="font-bold tracking-tighter">
+                                          {parseInt(day.temperature)}
+                                        </strong>
+                                        <span>&deg;</span>
+                                      </div>
+                                      <p className="text-white w-full text-sm font-light absolute top-2">
+                                        <strong className="font-bold">
+                                          {timeCollection[dayIndex]}
+                                        </strong>
+                                      </p>
+                                    </div>
                                   </div>
                                 </div>
-                              </div>
-                            )
-                          )}
-                        </div>
-                      </li>
-                    );
-                  })}
+                              )
+                            )}
+                          </div>
+                        </li>
+                      );
+                    })}
                 </ul>
               )}
             </>

@@ -2,7 +2,8 @@ import useCityName from "@/hooks/useCityName";
 import useGeolocalization from "@/hooks/useGeolocalization";
 import useWeather from "@/hooks/useWeather.1";
 import { HookUseWeatherResponse } from "@/interfaces/BrightSkyInterfaces";
-import { FormEvent, useEffect, useState } from "react";
+import { validateOnlyNumbers } from "@/utility/utilities";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 
 type Props = {
   // eslint-disable-next-line no-unused-vars
@@ -10,8 +11,8 @@ type Props = {
 };
 
 export default function SearchForm({ handleLocationWeatherData }: Props) {
-  const [textLatitude, setTextLatitude] = useState("");
-  const [textLongitude, setTextLongitude] = useState("");
+  const [textLatitude, setTextLatitude] = useState("0");
+  const [textLongitude, setTextLongitude] = useState("0");
   const [textLocationName, setTextLocationName] = useState("");
   const [isLatitude, setisLatitude] = useState("");
   const [isLongitude, setisLongitude] = useState("");
@@ -28,7 +29,7 @@ export default function SearchForm({ handleLocationWeatherData }: Props) {
     handleIsUpdate: handleIsUpdate,
   });
 
-  const { cityName } = useCityName({
+  const { cityName, cityNameStatus } = useCityName({
     latitude: Number(textLatitude),
     longitude: Number(textLongitude),
   });
@@ -64,6 +65,20 @@ export default function SearchForm({ handleLocationWeatherData }: Props) {
     console.log("SUBMIT!!");
   };
 
+  const handleLatitude = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    if (validateOnlyNumbers(value) || value === "") {
+      setTextLatitude(value);
+    }
+  };
+
+  const handleLongitude = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    if (validateOnlyNumbers(value) || value === "") {
+      setTextLongitude(value);
+    }
+  };
+
   return (
     <form onSubmit={handleSubmit} className="mb-5 p-4 border-2 border-white">
       <div>
@@ -71,7 +86,7 @@ export default function SearchForm({ handleLocationWeatherData }: Props) {
           <label>Latitude</label>
           <input
             value={textLatitude}
-            onChange={(e) => setTextLatitude(e.target.value)}
+            onChange={handleLatitude}
             className="w-full text-black"
             type="text"
           />
@@ -81,7 +96,7 @@ export default function SearchForm({ handleLocationWeatherData }: Props) {
           <label>Longitude</label>
           <input
             value={textLongitude}
-            onChange={(e) => setTextLongitude(e.target.value)}
+            onChange={handleLongitude}
             className="w-full text-black"
             type="text"
           />
@@ -114,10 +129,13 @@ export default function SearchForm({ handleLocationWeatherData }: Props) {
       )}
 
       <button
+        disabled={cityNameStatus !== "success"}
         type="submit"
-        className="mt-4 w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        className="mt-4 w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:opacity-40 disabled:cursor-not-allowed disabled:bg-blue-700"
       >
-        Update weather
+        {cityNameStatus !== "success"
+          ? "We cant update weather"
+          : "Update weather"}
       </button>
     </form>
   );
